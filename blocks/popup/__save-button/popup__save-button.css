@@ -4,4 +4,9 @@
   height: 50px;
   width: 100%;
   margin: 48px 0 37px;
+  border-radius: 2px;
+}
+
+.popup__save-button:hover {
+  opacity: 0.8;
 }

@@ -5,13 +5,3 @@
   display: grid;
   grid-template-columns: auto 42px;
 }
-
-.element::after {
-  content: "";
-  display: inline-block;
-  background-image: url('../../images/heart.svg');
-  width: 22px;
-  height: 19px;
-  background-size: cover;
-  align-self: center;
-}
