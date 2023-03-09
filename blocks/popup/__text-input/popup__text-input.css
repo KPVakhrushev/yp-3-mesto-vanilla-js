@@ -1,6 +1,6 @@
 .popup__text-input {
   border: 0;
-  padding-bottom: 13px;
+  padding: 0 0 13px 0;
   box-sizing: border-box;
   border-bottom: 1px solid black;
   margin-top: 30px;
@@ -8,4 +8,14 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
+}
+
+.popup__text-input:first-of-type {
+  margin-top: 54px;
+}
+
+@media screen and (max-width:600px) {
+  .popup__text-input:first-of-type {
+    margin-top: 75px;
+  }
 }

@@ -10,5 +10,12 @@
   color: black;
   border-radius: 10px;
   overflow: visible;
+  box-sizing: border-box;
 }
 
+@media screen and (max-width:600px) {
+  .popup__container {
+    padding: 0 22px;
+    width: calc(100% - 19px*2);
+  }
+}
