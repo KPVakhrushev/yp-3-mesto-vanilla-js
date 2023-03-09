@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Место</title>
+    <link rel="stylesheet" href="pages/index.css">
+  </head>
+  <body class="page">
+
+    <header class="header page__header">
+      <div class="header__logo"></div>
+    </header>
+
+    <main>
+      <section class="profile page__profile">
+        <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка профиля">
+        <div class="profile__info">
+          <p class="profile__title">Жак-Ив Кусто</p>
+          <a class="profile__edit-button" href="#" title="Редактировать"></a>
+          <p class="profile__subtitle">Исследователь океана</p>
+        </div>
+        <a class="profile__add-button" href="#"></a>
+      </section>
+
+      <section>
+        <ul class="elements">
+          <li class="element">
+            <img class="element__image" src="./images/place-altai.jpg" alt="Алтай">
+            <h2 class="element__title">Алтай</h2>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/place-baikal.jpg" alt="Байкал">
+            <h2 class="element__title">Байкал</h2>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/place-karelia.jpg" alt="Карелия">
+            <h2 class="element__title">Карелия</h2>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/place-kolsky.jpg" alt="Кольский">
+            <h2 class="element__title">Кольский</h2>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/place-kosa.jpg" alt="Коса">
+            <h2 class="element__title">Коса</h2>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/place-kamchatka.jpg" alt="Камчатка">
+            <h2 class="element__title">Камчатка</h2>
+          </li>
+        </ul>
+
+      </section>
+
+
+      <div class="popup">
+        <form class="popup__container">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input name="title"    class="popup__text-input" placeholder="Имя">
+          <input name="subtitle" class="popup__text-input" placeholder="Немного о себе">
+          <input type="submit" class="popup__save-button" value="Сохранить">
+          <div class="popup__close"></div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer page__footer">
+      <p class="footer__copyright">© 2023. KPVakhrushev</p>
+    </footer>
+
+  </body>
+  <script src="pages/index.js"></script>
+</html>
