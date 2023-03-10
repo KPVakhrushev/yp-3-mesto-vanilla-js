@@ -17,10 +17,10 @@
         <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка профиля">
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <a class="profile__edit-button" href="#" title="Редактировать"></a>
+          <button class="profile__edit-button"  type="button" title="Редактировать данные"></button>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <a class="profile__add-button" href="#"></a>
+        <button class="profile__add-button"  type="button" title="Добавить место"></button>
       </section>
 
       <section>
@@ -28,53 +28,53 @@
           <li class="element">
             <img class="element__image" src="./images/place-altai.jpg" alt="Алтай">
             <h2 class="element__title">Алтай</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
           <li class="element">
             <img class="element__image" src="./images/place-baikal.jpg" alt="Байкал">
             <h2 class="element__title">Байкал</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
           <li class="element">
             <img class="element__image" src="./images/place-karelia.jpg" alt="Карелия">
             <h2 class="element__title">Карелия</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
           <li class="element">
             <img class="element__image" src="./images/place-kolsky.jpg" alt="Кольский">
             <h2 class="element__title">Кольский</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
           <li class="element">
             <img class="element__image" src="./images/place-kosa.jpg" alt="Коса">
             <h2 class="element__title">Коса</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
           <li class="element">
             <img class="element__image" src="./images/place-kamchatka.jpg" alt="Камчатка">
             <h2 class="element__title">Камчатка</h2>
-            <button class="element__like"></button>
+            <button class="element__like" type="button"></button>
           </li>
         </ul>
 
       </section>
-
-
-      <div class="popup">
-        <form class="popup__container">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <input name="title"    class="popup__text-input" placeholder="Имя">
-          <input name="subtitle" class="popup__text-input" placeholder="Немного о себе">
-          <input type="submit"   class="popup__save-button" value="Сохранить">
-          <button class="popup__close"></button>
-        </form>
-      </div>
     </main>
 
     <footer class="footer page__footer">
       <p class="footer__copyright">© 2023. KPVakhrushev</p>
     </footer>
 
+    <div class="popup">
+      <div class="popup__container">
+        <form method="post" name="profile">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input name="title"    class="popup__text-input" id="popup__text-input_title"    placeholder="Имя">
+          <input name="subtitle" class="popup__text-input" id="popup__text-input_subtitle" placeholder="Немного о себе">
+          <button type="submit"   class="popup__save-button" title="Сохранить данные">Сохранить</button>
+        </form>
+        <button class="popup__close" type="button" title="Закрыть форму без сохранения данных"></button>
+      </div>
+    </div>
+    <script src="scripts/index.js"></script>
   </body>
-  <script src="pages/index.js"></script>
 </html>

@@ -3,15 +3,16 @@
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url('../../../images/pencil.svg');
+  background: url('../../../images/pencil.svg') no-repeat center;
   background-size: 10px;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-bottom: 10px;
   box-sizing: border-box;
+  padding: 0;
+  vertical-align: top;
+  margin-top: 15px;
+  cursor: pointer;
 }
 .profile__edit-button:hover {
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 @media screen and (max-width:600px) {
@@ -19,5 +20,6 @@
     width: 18px;
     height: 18px;
     background-size: 7.5px;
+    margin-top: 10px;
   }
 }
