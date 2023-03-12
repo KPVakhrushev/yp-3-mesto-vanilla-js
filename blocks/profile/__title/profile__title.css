@@ -10,17 +10,16 @@
 
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 26px);
+  max-width: calc(100% - 24px);
   box-sizing: border-box;
 }
-
 
 @media screen and (max-width:600px) {
   .profile__title {
     font-size: 27px;
     line-height: 33px;
-    max-width: calc(100% - 28px - 18px);
+    max-width: calc(100% - 18px);
     padding-right: 10px;
-    margin-left: 28px;
+    padding-left: 28px;
   }
 }

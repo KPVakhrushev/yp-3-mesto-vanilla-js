@@ -1,20 +1,14 @@
 .profile__info {
-  /*
-  Уверждение в ревью, о том, что overflow: hidden в данном месте нужно удалить, т.к. здесь оно не требуется, считаю ошибочным.
-  Использование overflow hidden в данном месте необходимо для корректного вычисления ширины дочернего элемента profile__title в функции calc.
-  Т.к. явных ограничений по ширине ни  для данного элемента ни для родительского блока(profile) не задано, то функция calc при вычислении ширины в profile__title за 100% возьмет ширину блока "page", что не корректно и ломает адаптивность при длинном тексте.
-  */
-  overflow: hidden;
-
   flex-grow: 1;
   font-size: 0;
-  width: 100%;
   margin-top: 22px;
+  max-width: calc(100% - 330px);
 }
 @media screen and (max-width:600px) {
   .profile__info {
     text-align: center;
     margin: 26px 0 36px 0;
+    max-width: 100%;
   }
 }
 

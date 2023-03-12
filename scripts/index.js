@@ -4,7 +4,7 @@ let profileSubtitle = document.querySelector('.profile__subtitle');
 
 let popup = document.querySelector('.popup');
 let popupCloseButton   = document.querySelector('.popup__close');
-let popupForm    = document.querySelector('.popup__container');
+let popupForm    = document.querySelector('.popup__edit-form');
 let popupInputTitle    = document.querySelector('#popup__text-input_title');
 let popupInputSubtitle = document.querySelector('#popup__text-input_subtitle');
 
