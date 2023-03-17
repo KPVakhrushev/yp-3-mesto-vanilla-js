@@ -99,7 +99,9 @@ const funcAddCard        = function (name, link){
   newElement = funcCloneTemplate('.element');
   newElement.querySelector('.element__image').src = link;
   newElement.querySelector('.element__title').textContent = name;
-  document.querySelector('.elements').append(newElement);
+  newElement.querySelector('.element__like').addEventListener('click', event => event.target.classList.toggle('element__like_active') );
+  document.querySelector('.elements').prepend(newElement);
+
   return newElement;
 }
 const functOpenForm      = function (formData){
