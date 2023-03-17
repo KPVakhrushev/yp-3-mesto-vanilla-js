@@ -100,8 +100,8 @@ const funcAddCard        = function (name, link){
   newElement.querySelector('.element__image').src = link;
   newElement.querySelector('.element__title').textContent = name;
   newElement.querySelector('.element__like').addEventListener('click', event => event.target.classList.toggle('element__like_active') );
+  newElement.querySelector('.element__delete').addEventListener('click', event => event.target.closest('.element').remove() );
   document.querySelector('.elements').prepend(newElement);
-
   return newElement;
 }
 const functOpenForm      = function (formData){
