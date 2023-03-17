@@ -37,21 +37,21 @@
 
     <div class="popup">
       <div class="popup__container">
-        <form method="post" name="profile" class="popup__edit-form">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <input name="title"    class="popup__text-input" id="popup__text-input_title"    placeholder="Имя">
-          <input name="subtitle" class="popup__text-input" id="popup__text-input_subtitle" placeholder="Немного о себе">
-          <button type="submit"   class="popup__save-button" title="Сохранить данные">Сохранить</button>
+        <form method="post" class="popup__form"  name="" action="">
         </form>
         <button class="popup__close" type="button" title="Закрыть форму без сохранения данных"></button>
       </div>
     </div>
-    <template id="card">
+
+    <template id="templates">
       <li class="element">
         <img class="element__image" src="" alt="">
         <h2 class="element__title"></h2>
         <button class="element__like" type="button"></button>
       </li>
+      <h2 class="popup__title"></h2>
+      <input class="popup__text-input" name=""  id="" placeholder="">
+      <button type="submit"  class="popup__save-button" title=""></button>
     </template>
 
     <script src="scripts/index.js"></script>
