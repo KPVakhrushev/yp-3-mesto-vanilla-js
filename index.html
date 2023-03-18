@@ -37,8 +37,6 @@
 
     <div class="popup">
       <div class="popup__container">
-        <form method="post" class="popup__form"  name="" action="">
-        </form>
         <button class="popup__close" type="button" title="Закрыть форму без сохранения данных"></button>
       </div>
     </div>
@@ -50,10 +48,18 @@
         <button class="element__like" type="button"></button>
         <button class="element__delete" type="button"></button>
       </li>
-      <h2 class="popup__title"></h2>
-      <input class="popup__text-input" name=""  id="" placeholder="">
-      <button type="submit"  class="popup__save-button" title=""></button>
-
+      <form method="post" class="popup__form popup__form_action_edit" name="editprofile" action="/save/profile/">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input class="popup__text-input" name="title"    id="input-profile-title"    placeholder="Введите ваше имя">
+        <input class="popup__text-input" name="subtitle" id="input-profile-subtitle" placeholder="Расскажите немного о себе">
+        <button type="submit" class="popup__save-button" title="Сохранить">Сохранить</button>
+      </form>
+      <form method="post" class="popup__form popup__form_action_add" name="addcard" action="/add/card/">
+        <h2 class="popup__title">Новое место</h2>
+        <input class="popup__text-input" name="name" id="input-add-name" placeholder="Название">
+        <input class="popup__text-input" name="src"  id="input-add-src"  placeholder="Ссылка на картинку">
+        <button type="submit" class="popup__save-button" title="Создать">Создать</button>
+      </form>
     </template>
 
     <script src="scripts/index.js"></script>

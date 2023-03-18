@@ -1,129 +1,113 @@
-const templates         = document.querySelector('#templates').content;
-const profileEditButton = document.querySelector('.profile__edit-button');
-const profileTitle      = document.querySelector('.profile__title');
-const profileSubtitle   = document.querySelector('.profile__subtitle');
-const addButton         = document.querySelector('.profile__add-button');
-const popup             = document.querySelector('.popup');
-const popupCloseButton  = document.querySelector('.popup__close');
-const popupForm         = document.querySelector('.popup__form');
-const popupContainer    = document.querySelector('.popup__container');
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+const Template = {
+  templates: document.querySelector('#templates').content,
+  clone: selector => Template.templates.querySelector(selector).cloneNode(true)
+}
+const Popup = {
+  content: null,
+  element:  document.querySelector('.popup'),
+  closeButton: document.querySelector('.popup__close'),
+  container: document.querySelector('.popup__container'),
+  open: content => {
+    Popup.element.classList.add('popup_opened');
+    Popup.container.append(content);
+    Popup.content = content;
   },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  close: () => {
+    Popup.element.classList.remove('popup_opened');
+    Popup.content.remove();
   },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  init: () => {
+    Popup.closeButton.addEventListener('click', Popup.close);
   }
-];
-
-const forms = {
-  edit:{
-    name: 'profile',
-    action: '/save/profile/',
-    title: 'Редактировать профиль',
-    button: 'Сохранить',
-    fields: {
-      title: {
-        placeholder: 'Введите ваше имя',
-      },
-      subtitle: {
-        placeholder: 'Расскажите немного о себе',
-      }
+}
+const Profile = {
+  form: Template.clone('.popup__form_action_edit'),
+  editButton: document.querySelector('.profile__edit-button'),
+  title: document.querySelector('.profile__title'),
+  subtitle: document.querySelector('.profile__subtitle'),
+  inputTitle: null,
+  inputSubtitle: null,
+  initFormFields: function(){
+    Profile.inputTitle.value    = Profile.title.textContent;
+    Profile.inputSubtitle.value = Profile.subtitle.textContent;
+  },
+  open: function(){
+    Profile.initFormFields();
+    Popup.open(Profile.form);
+  },
+  init: function(){
+    Profile.inputTitle = Profile.form.querySelector('#input-profile-title'),
+    Profile.inputSubtitle = Profile.form.querySelector('#input-profile-subtitle'),
+    Profile.initFormFields();
+    Profile.form.addEventListener('submit', (event)=>Profile.save(event));
+    Profile.editButton.addEventListener('click', ()=>Profile.open(Profile.form));
+  },
+  save: function(event){
+    event.preventDefault();
+    Profile.title.textContent    = Profile.inputTitle.value;
+    Profile.subtitle.textContent = Profile.inputSubtitle.value;
+    Popup.close();
+  }
+}
+const Cards = {
+  form: Template.clone('.popup__form_action_add'),
+  addButton: document.querySelector('.profile__add-button'),
+  inputName: null,
+  inputSrc: null,
+  initial: [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
-    init: function (){
-      forms.edit.fields.title.element.value    = profileTitle.textContent;
-      forms.edit.fields.subtitle.element.value = profileSubtitle.textContent;
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
     },
-    submit: function(event){
-      event.preventDefault();
-      const fields = forms.edit.fields;
-      profileTitle.textContent    = fields.title.element.value;
-      profileSubtitle.textContent = fields.subtitle.element.value;
-      funcPopupClose();
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
+  ],
+  add: (name, link) => {
+    newElement = Template.clone('.element');
+    newElement.querySelector('.element__image').src = link;
+    newElement.querySelector('.element__title').textContent = name;
+    newElement.querySelector('.element__like').addEventListener('click',   event => Cards.like(event.target) );
+    newElement.querySelector('.element__delete').addEventListener('click', event => Cards.remove(event.target) );
+    document.querySelector('.elements').prepend(newElement);
   },
-  add:{
-    name: 'addcard',
-    action: '/add/card/',
-    title: 'Новое место',
-    button: 'Создать',
-    fields: {
-      name: {
-        placeholder: 'Название'
-      },
-      src: {
-        placeholder: 'Ссылка на картинку'
-      }
-    },
-    init: () => {},
-    submit: event => {
-      event.preventDefault();
-      funcAddCard(forms.add.fields.name.element.value, forms.add.fields.src.element.value);
-      funcPopupClose();
-    }
+  save: (event) => {
+    event.preventDefault();
+    Cards.add(Cards.inputName.value, Cards.inputSrc.value);
+    Popup.close();
+  },
+  init: () => {
+    Cards.inputName = Cards.form.querySelector('#input-add-name');
+    Cards.inputSrc = Cards.form.querySelector('#input-add-src');
+    Cards.initial.forEach(card => Cards.add(card.name, card.link));
+    Cards.form.addEventListener('submit', (event)=>Cards.save(event));
+    Cards.addButton.addEventListener('click', ()=>Popup.open(Cards.form));
+  },
+  like: (button) => {
+    button.classList.toggle('element__like_active');
+  },
+  remove: (card) => {
+    card.closest('.element').remove();
   }
 }
 
-const funcPopupClose     = function (){
-  popup.classList.remove('popup_opened');
-}
-const funcCloneTemplate  = function (className, attrubutes=null){
-  const newElement = templates.querySelector(className).cloneNode(true);
-  if(attrubutes){
-    for(const [name, value] of Object.entries(attrubutes)){
-      newElement[name] = value;
-    }
-  }
-  return newElement;
-}
-const funcAddCard        = function (name, link){
-  newElement = funcCloneTemplate('.element');
-  newElement.querySelector('.element__image').src = link;
-  newElement.querySelector('.element__title').textContent = name;
-  newElement.querySelector('.element__like').addEventListener('click', event => event.target.classList.toggle('element__like_active') );
-  newElement.querySelector('.element__delete').addEventListener('click', event => event.target.closest('.element').remove() );
-  document.querySelector('.elements').prepend(newElement);
-  return newElement;
-}
-const functOpenForm      = function (formData){
-  popup.classList.add('popup_opened');
-  popupForm.name      = formData.name;
-  popupForm.action    = formData.action;
-  popupForm.innerHTML = '';
-
-  popupForm.append(funcCloneTemplate('.popup__title', {textContent: formData.title}));
-  let element;
-  for(const [name, field] of Object.entries(formData.fields)){
-    element = funcCloneTemplate('.popup__text-input', {name: name, placeholder: field.placeholder});
-    popupForm.append(element);
-    formData.fields[name].element = element;
-  }
-  const saveButton   = funcCloneTemplate('.popup__save-button', {textContent: formData.button, title: formData.button});
-  saveButton.addEventListener('click', (event)=>formData.submit(event));
-  popupForm.append(saveButton);
-  formData.init();
-}
-
-profileEditButton.addEventListener('click', ()=>functOpenForm(forms.edit));
-addButton.addEventListener('click', ()=>functOpenForm(forms.add));
-popupCloseButton.addEventListener('click', funcPopupClose);
-initialCards.forEach(card => funcAddCard(card.name, card.link));
+Popup.init();
+Profile.init();
+Cards.init();
