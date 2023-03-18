@@ -87,6 +87,7 @@ const Cards = {
   add: (name, link) => {
     newElement = Template.clone('.element');
     const image = newElement.querySelector('.element__image');
+    image.onerror = Cards.onBadImage;
     image.src = link;
     image.alt = name;
     newElement.querySelector('.element__title').textContent = name;
@@ -99,6 +100,8 @@ const Cards = {
     event.preventDefault();
     Cards.add(Cards.inputName.value, Cards.inputSrc.value);
     Popup.close();
+    Cards.inputName.value = '';
+    Cards.inputSrc.value = '';
   },
   init: () => {
     Cards.inputName = Cards.form.querySelector('#input-add-name');
@@ -118,6 +121,9 @@ const Cards = {
     group.querySelector('.popup__image').src = image.src;
     group.querySelector('.popup__image-title').textContent = image.alt;
     Popup.open(group, true);
+  },
+  onBadImage: (event)=>{
+    event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
   }
 }
 
