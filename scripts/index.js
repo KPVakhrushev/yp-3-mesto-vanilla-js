@@ -7,7 +7,7 @@ const Popup = {
   element:  document.querySelector('.popup'),
   closeButton: document.querySelector('.popup__close'),
   container: document.querySelector('.popup__container'),
-  open: content => {
+  open: (content) => {
     Popup.element.classList.add('popup_opened');
     Popup.container.append(content);
     Popup.content = content;
@@ -21,7 +21,7 @@ const Popup = {
   }
 }
 const Profile = {
-  form: Template.clone('.popup__form_action_edit'),
+  form: Template.clone('.form_action_edit'),
   editButton: document.querySelector('.profile__edit-button'),
   title: document.querySelector('.profile__title'),
   subtitle: document.querySelector('.profile__subtitle'),
@@ -50,7 +50,7 @@ const Profile = {
   }
 }
 const Cards = {
-  form: Template.clone('.popup__form_action_add'),
+  form: Template.clone('.form_action_add'),
   addButton: document.querySelector('.profile__add-button'),
   inputName: null,
   inputSrc: null,
@@ -82,10 +82,13 @@ const Cards = {
   ],
   add: (name, link) => {
     newElement = Template.clone('.element');
-    newElement.querySelector('.element__image').src = link;
+    const image = newElement.querySelector('.element__image');
+    image.src = link;
+    image.alt = name;
     newElement.querySelector('.element__title').textContent = name;
     newElement.querySelector('.element__like').addEventListener('click',   event => Cards.like(event.target) );
     newElement.querySelector('.element__delete').addEventListener('click', event => Cards.remove(event.target) );
+    image.addEventListener('click',   event => Cards.popup(event.target) );
     document.querySelector('.elements').prepend(newElement);
   },
   save: (event) => {
@@ -105,6 +108,12 @@ const Cards = {
   },
   remove: (card) => {
     card.closest('.element').remove();
+  },
+  popup: (image) => {
+    const group = Template.clone('.popup__image-group');
+    group.querySelector('.popup__image').src = image.src;
+    group.querySelector('.popup__image-title').textContent = image.alt;
+    Popup.open(group);
   }
 }
 
