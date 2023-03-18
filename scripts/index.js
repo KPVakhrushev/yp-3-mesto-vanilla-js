@@ -3,14 +3,14 @@ const Template = {
   clone: selector => Template.templates.querySelector(selector).cloneNode(true)
 }
 const Popup = {
-  content: null,
   element:  document.querySelector('.popup'),
   closeButton: document.querySelector('.popup__close'),
   container: document.querySelector('.popup__container'),
+  content: null,
   open: (content) => {
-    Popup.element.classList.add('popup_opened');
     Popup.container.append(content);
     Popup.content = content;
+    Popup.element.classList.add('popup_opened');
   },
   close: () => {
     Popup.element.classList.remove('popup_opened');
