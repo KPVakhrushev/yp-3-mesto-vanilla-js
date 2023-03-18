@@ -7,7 +7,11 @@ const Popup = {
   closeButton: document.querySelector('.popup__close'),
   container: document.querySelector('.popup__container'),
   content: null,
-  open: (content) => {
+  open: (content, darkTheme=false) => {
+    Popup.element.className = 'popup';
+    if(darkTheme){
+      Popup.element.classList.add('popup_theme_dark');
+    }
     Popup.container.append(content);
     Popup.content = content;
     Popup.element.classList.add('popup_opened');
@@ -113,7 +117,7 @@ const Cards = {
     const group = Template.clone('.popup__image-group');
     group.querySelector('.popup__image').src = image.src;
     group.querySelector('.popup__image-title').textContent = image.alt;
-    Popup.open(group);
+    Popup.open(group, true);
   }
 }
 
