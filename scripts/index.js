@@ -61,7 +61,7 @@ const Cards = {
     title: document.querySelector('.popup__image-title'),
     open: (image) => {
       Cards.Popup.image.src = image.src;
-      Cards.Popup.textContent = image.alt;
+      Cards.Popup.title.textContent = image.alt;
       Popup.open(Cards.Popup.group, true);
     },
   },
