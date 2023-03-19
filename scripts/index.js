@@ -8,24 +8,24 @@ const Popup = {
   container: document.querySelector('.popup__container'),
   content: null,
   open: (content, darkTheme=false) => {
+    content.classList.remove('popup__content_hidden');
     Popup.element.className = 'popup';
     if(darkTheme){
       Popup.element.classList.add('popup_theme_dark');
     }
-    Popup.container.append(content);
     Popup.content = content;
     Popup.element.classList.add('popup_opened');
   },
   close: () => {
     Popup.element.classList.remove('popup_opened');
-    Popup.content.remove();
+    Popup.content.classList.add('popup__content_hidden');
   },
   init: () => {
     Popup.closeButton.addEventListener('click', Popup.close);
   }
 }
 const Profile = {
-  form: Template.clone('.form_action_edit'),
+  form: document.querySelector('#form-edit-profile'),
   editButton: document.querySelector('.profile__edit-button'),
   title: document.querySelector('.profile__title'),
   subtitle: document.querySelector('.profile__subtitle'),
@@ -54,7 +54,17 @@ const Profile = {
   }
 }
 const Cards = {
-  form: Template.clone('.form_action_add'),
+  form: document.querySelector('#form-add-card'),
+  Popup:{
+    group: document.querySelector('.popup__image-group'),
+    image: document.querySelector('.popup__image'),
+    title: document.querySelector('.popup__image-title'),
+    open: (image) => {
+      Cards.Popup.image.src = image.src;
+      Cards.Popup.textContent = image.alt;
+      Popup.open(Cards.Popup.group, true);
+    },
+  },
   addButton: document.querySelector('.profile__add-button'),
   inputName: null,
   inputSrc: null,
@@ -93,7 +103,7 @@ const Cards = {
     newElement.querySelector('.element__title').textContent = name;
     newElement.querySelector('.element__like').addEventListener('click',   event => Cards.like(event.target) );
     newElement.querySelector('.element__delete').addEventListener('click', event => Cards.remove(event.target) );
-    image.addEventListener('click',   event => Cards.popup(event.target) );
+    image.addEventListener('click',   event => Cards.Popup.open(event.target) );
     document.querySelector('.elements').prepend(newElement);
   },
   save: (event) => {
@@ -116,12 +126,7 @@ const Cards = {
   remove: (card) => {
     card.closest('.element').remove();
   },
-  popup: (image) => {
-    const group = Template.clone('.popup__image-group');
-    group.querySelector('.popup__image').src = image.src;
-    group.querySelector('.popup__image-title').textContent = image.alt;
-    Popup.open(group, true);
-  },
+
   onBadImage: (event)=>{
     event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
   }
