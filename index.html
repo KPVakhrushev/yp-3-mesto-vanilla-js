@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Место</title>
     <link rel="stylesheet" href="pages/index.css">
+    <link rel="stylesheet" href="blocks/popup/_blackout/popup_theme_dark.css">
   </head>
   <body class="page">
 
@@ -36,27 +37,34 @@
     </footer>
 
     <div class="popup">
-      <div class="popup__container">
-        <button class="popup__close" type="button" title="Закрыть форму без сохранения данных"></button>
-
-        <form method="post" class="form popup__content popup__content_hidden" id="form-edit-profile" name="editprofile" action="/save/profile/">
-          <h2 class="form__title">Редактировать профиль</h2>
-          <input class="form__text-input" name="title"    id="input-profile-title"    placeholder="Введите ваше имя">
-          <input class="form__text-input" name="subtitle" id="input-profile-subtitle" placeholder="Расскажите немного о себе">
-          <button type="submit" class="form__save-button" title="Сохранить">Сохранить</button>
+      <div class="popup__container popup__container_content_form">
+        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form" id="form-edit-profile" name="edit-profile" action="/save/profile/" method="post" >
+          <input class="popup__text-input" name="title"    id="input-profile-title"    placeholder="Введите ваше имя">
+          <input class="popup__text-input" name="subtitle" id="input-profile-subtitle" placeholder="Расскажите немного о себе">
+          <button type="submit" class="popup__save-button" title="Сохранить">Сохранить</button>
         </form>
+      </div>
+    </div>
 
-        <form method="post" class="form  popup__content popup__content_hidden" id='form-add-card' name="addcard" action="/add/card/">
-          <h2 class="form__title">Новое место</h2>
-          <input class="form__text-input" name="name" id="input-add-name" placeholder="Название">
-          <input class="form__text-input" name="src"  id="input-add-src"  placeholder="Ссылка на картинку">
-          <button type="submit" class="form__save-button" title="Создать">Создать</button>
+    <div class="popup">
+      <div class="popup__container popup__container_content_form">
+        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form" id='form-add-card' name="add-card" action="/add/card/" method="post">
+          <input class="popup__text-input" name="name" id="input-card-name" placeholder="Название">
+          <input class="popup__text-input" name="src"  id="input-card-src"  placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__save-button" title="Создать">Создать</button>
         </form>
+      </div>
+    </div>
 
-        <div class="popup__image-group popup__content popup__content_hidden">
-          <img class="popup__image" alt="">
-          <h2 class="popup__image-title"></h2>
-        </div>
+    <div class="popup popup_blackout_strong">
+      <div class="popup__container popup__container_content_image">
+        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+        <img class="popup__image" alt="">
+        <h2  class="popup__image-title"></h2>
       </div>
     </div>
 
