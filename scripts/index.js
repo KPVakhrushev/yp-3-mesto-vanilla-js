@@ -108,7 +108,7 @@ const openPopupProfile = function (){
 const openPopupImage = function(imageData){
   popupImageImg.src = imageData.link;
   popupImageTitle.textContent = imageData.name;
-  popupImageTitle.alt = imageData.name;
+  popupImageImg.alt = imageData.name;
   openPopup(popupImage);
 };
 const closePopup = function(popup){
