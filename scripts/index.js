@@ -25,16 +25,17 @@ const initialCards = [
   }
 ];
 const elementTemplate = document.querySelector('#templates').content.querySelector('.element');
-/* формы*/
-const formEditProfile = document.querySelector('#form-edit-profile');
-const formAddCard = document.querySelector('#form-add-card');
-/* элементы image poppup*/
-const popupImageImg = document.querySelector('.popup__image');
-const popupImageTitle = document.querySelector('.popup__image-title');
+const elements = document.querySelector('.elements');
 /* модальные окна */
-const popupAddCard = formAddCard.closest('.popup');
-const popupEditProfile = formEditProfile.closest('.popup');
-const popupImage = popupImageImg.closest('.popup');
+const popupEditProfile = document.querySelector('.popup_content_edit-profile');
+const popupAddCard = document.querySelector('.popup_content_add-card');
+const popupImage = document.querySelector('.popup_content_image');
+/* формы*/
+const formEditProfile = popupEditProfile.querySelector('#form-edit-profile');
+const formAddCard = popupAddCard.querySelector('#form-add-card');
+/* элементы image poppup*/
+const popupImageImg = popupImage.querySelector('.popup__image');
+const popupImageTitle = popupImage.querySelector('.popup__image-title');
 /* ввод данных */
 const inputProfileTitle = formEditProfile.querySelector('#input-profile-title');
 const inputProfileSubtitle = formEditProfile.querySelector('#input-profile-subtitle');
@@ -49,18 +50,41 @@ const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
 /* функции */
-const addCard = function(name, link){
+const createCard = function(cardData){
   const newElement = elementTemplate.cloneNode(true);
+  const likeButton = newElement.querySelector('.element__like');
   const image = newElement.querySelector('.element__image');
-  image.onerror = onErrorCardImage;
-  image.src = link;
-  image.alt = name;
-  newElement.querySelector('.element__title').textContent = name;
-  newElement.querySelector('.element__like').addEventListener('click', event => likeCard(event.target));
-  newElement.querySelector('.element__delete').addEventListener('click', event => removeCard(event.target));
-  image.addEventListener('click', event => openPopupImage(event.target));
-  document.querySelector('.elements').prepend(newElement);
+  image.addEventListener('error', handleCardImageError);
+  image.src = cardData.link;
+  image.alt = cardData.name;
+  newElement.querySelector('.element__title').textContent = cardData.name;
+  likeButton.addEventListener('click', event => likeCard(likeButton));
+  newElement.querySelector('.element__delete').addEventListener('click', () => removeCard(newElement));
+  image.addEventListener('click', event => openPopupImage(cardData));
+  return newElement;
 };
+const renderCard = function(card){
+  elements.prepend(card);
+}
+const saveCard = function(event){
+  event.preventDefault();
+  const newCard = createCard({
+    name: inputCardName.value,
+    link: inputCardSrc.value
+  });
+  renderCard(newCard);
+  closePopup(popupAddCard);
+};
+const likeCard = function(button){
+  button.classList.toggle('element__like_active');
+};
+const removeCard = function(card){
+  card.closest('.element').remove();
+};
+const handleCardImageError = function(event){
+  event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+}
+
 const openPopup = function(popup){
   popup.classList.add('popup_opened');
 };
@@ -74,12 +98,12 @@ const openPopupProfile = function (){
   inputProfileSubtitle.value = profileSubtitle.textContent;
   openPopup(popupEditProfile);
 };
-const openPopupImage = function(image){
-  popupImageImg.src = image.src;
-  popupImageTitle.textContent = image.alt;
-  openPopup(popupImage, true);
+const openPopupImage = function(imageData){
+  popupImageImg.src = imageData.link;
+  popupImageTitle.textContent = imageData.name;
+  popupImageTitle.alt = imageData.name;
+  openPopup(popupImage);
 };
-
 const closePopup = function(popup){
   popup.classList.remove('popup_opened');
 };
@@ -89,26 +113,17 @@ const saveProfile = function(event){
   profileSubtitle.textContent = inputProfileSubtitle.value;
   closePopup(popupEditProfile);
 }
-const saveCard = function(event){
-  event.preventDefault();
-  addCard(inputCardName.value, inputCardSrc.value);
-  closePopup(popupAddCard);
-};
-const likeCard = function(button){
-  button.classList.toggle('element__like_active');
-};
-const removeCard = function(card){
-  card.closest('.element').remove();
-};
-const onErrorCardImage = function(event){
-  event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+const handleClickCloseButton = function(button) {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(popup) )
 }
 
 /* Обработка событий */
-closeButtons.forEach(button => button.addEventListener('click', (event) => closePopup(event.target.closest('.popup')) ));
+closeButtons.forEach(handleClickCloseButton);
 addButton.addEventListener('click', () => openPopupAddCard());
 editButton.addEventListener('click', () => openPopupProfile());
 formAddCard.addEventListener('submit', (event) => saveCard(event));
 formEditProfile.addEventListener('submit', (event) => saveProfile(event));
 
-initialCards.forEach(card => addCard(card.name, card.link));
+/* Добавление начальных карточек */
+initialCards.forEach(card=> renderCard(createCard(card)));
