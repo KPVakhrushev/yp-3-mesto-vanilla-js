@@ -54,10 +54,11 @@ const createCard = function(cardData){
   const newElement = elementTemplate.cloneNode(true);
   const likeButton = newElement.querySelector('.element__like');
   const image = newElement.querySelector('.element__image');
-  image.addEventListener('error', handleCardImageError);
+  image.addEventListener('error', handleErrorCardImage);
   image.src = cardData.link;
   image.alt = cardData.name;
   newElement.querySelector('.element__title').textContent = cardData.name;
+
   likeButton.addEventListener('click', event => likeCard(likeButton));
   newElement.querySelector('.element__delete').addEventListener('click', () => removeCard(newElement));
   image.addEventListener('click', event => openPopupImage(cardData));
@@ -81,7 +82,13 @@ const likeCard = function(button){
 const removeCard = function(card){
   card.closest('.element').remove();
 };
-const handleCardImageError = function(event){
+const handleErrorCardImage = function(event){
+  /* TODO remove old listeners */
+  const card = event.target.addEventListener('click', event => openPopupImage({
+    name: event.target.alt,
+    link: event.target.src
+  }));
+
   event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
 }
 
