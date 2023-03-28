@@ -116,7 +116,7 @@ const openPopupImage = function(imageData){
 };
 const closePopup = function(popup){
   popup.classList.remove('popup_opened');
-  openPopup = null;
+  openedPopup = undefined;
 };
 const saveProfile = function(event){
   event.preventDefault();
@@ -125,13 +125,19 @@ const saveProfile = function(event){
   closePopup(popupEditProfile);
 }
 const handleClickCloseButton = function(button) {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => closePopup(popup) )
+  button.addEventListener('click', () => closePopup(openedPopup) )
 }
 const handleEscape = function(e){
   if(e.key === 'Escape' && openedPopup){
     closePopup(openedPopup);
   }
+}
+const handleClickOverlay = function(popup){
+  popup.addEventListener('click', (e) => {
+    if(e.target === popup){
+      closePopup(popup)
+    }
+  })
 }
 
 /* Обработка событий */
@@ -140,7 +146,7 @@ addButton.addEventListener('click', () => openPopupAddCard());
 editButton.addEventListener('click', () => openPopupProfile());
 formAddCard.addEventListener('submit', (event) => saveCard(event));
 formEditProfile.addEventListener('submit', (event) => saveProfile(event));
-popups.forEach(handleEscape);
+popups.forEach(handleClickOverlay);
 document.addEventListener('keydown',handleEscape) ;
 
 /* Добавление начальных карточек */
