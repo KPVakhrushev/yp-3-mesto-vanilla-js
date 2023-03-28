@@ -27,6 +27,7 @@ const initialCards = [
 const elementTemplate = document.querySelector('#templates').content.querySelector('.element');
 const elements = document.querySelector('.elements');
 /* модальные окна */
+const popups = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('.popup_content_edit-profile');
 const popupAddCard = document.querySelector('.popup_content_add-card');
 const popupImage = document.querySelector('.popup_content_image');
@@ -48,6 +49,7 @@ const closeButtons = document.querySelectorAll('.popup__close-button');
 /* данные профиля */
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
+let openedPopup;
 
 /* функции */
 const createCard = function(cardData){
@@ -93,6 +95,7 @@ const handleErrorCardImage = function(event){
 }
 
 const openPopup = function(popup){
+  openedPopup = popup;
   popup.classList.add('popup_opened');
 };
 const openPopupAddCard = function(){
@@ -113,6 +116,7 @@ const openPopupImage = function(imageData){
 };
 const closePopup = function(popup){
   popup.classList.remove('popup_opened');
+  openPopup = null;
 };
 const saveProfile = function(event){
   event.preventDefault();
@@ -124,6 +128,11 @@ const handleClickCloseButton = function(button) {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup) )
 }
+const handleEscape = function(e){
+  if(e.key === 'Escape' && openedPopup){
+    closePopup(openedPopup);
+  }
+}
 
 /* Обработка событий */
 closeButtons.forEach(handleClickCloseButton);
@@ -131,6 +140,10 @@ addButton.addEventListener('click', () => openPopupAddCard());
 editButton.addEventListener('click', () => openPopupProfile());
 formAddCard.addEventListener('submit', (event) => saveCard(event));
 formEditProfile.addEventListener('submit', (event) => saveProfile(event));
+popups.forEach(handleEscape);
+document.addEventListener('keydown',handleEscape) ;
 
 /* Добавление начальных карточек */
 initialCards.forEach(card=> renderCard(createCard(card)));
+
+
