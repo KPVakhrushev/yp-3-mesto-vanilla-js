@@ -7,7 +7,7 @@
   padding: 0 0 13px 0;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0,0,0,0.2);
-  margin-top: 30px;
+
   width: 100%;
 }
 
@@ -19,4 +19,7 @@
   .popup__text-input:first-of-type {
     margin-top: 75px;
   }
+}
+.popup__text-input::placeholder{
+  color: #C4C4C4;
 }

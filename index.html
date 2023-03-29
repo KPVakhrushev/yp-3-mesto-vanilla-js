@@ -35,37 +35,48 @@
       <p class="footer__copyright">© 2023. KPVakhrushev</p>
     </footer>
 
-    <div class="popup popup_content_edit-profile">
-      <div class="popup__container popup__container_content_form">
-        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" id="form-edit-profile" name="edit-profile" action="/save/profile/" method="post" >
-          <input class="popup__text-input" name="title"    id="input-profile-title"    placeholder="Введите ваше имя">
-          <input class="popup__text-input" name="subtitle" id="input-profile-subtitle" placeholder="Расскажите немного о себе">
-          <button type="submit" class="popup__save-button" title="Сохранить">Сохранить</button>
-        </form>
+    <div class="popups  page__hidden">
+      <div class="popup popup_content_edit-profile">
+        <div class="popup__container popup__container_content_form">
+          <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <form class="popup__form" id="form-edit-profile" name="edit-profile" action="/save/profile/" method="post">
+            <input class="popup__text-input" name="title"    id="input-profile-title"    type="text" minlength="2" maxlength="40" required placeholder="Введите ваше имя">
+            <span class="input-profile-title-error popup__error"></span>
+
+            <input class="popup__text-input" name="subtitle" id="input-profile-subtitle" type="text" minlength="2" maxlength="200" required placeholder="Расскажите немного о себе" >
+            <span class="input-profile-subtitle-error popup__error"></span>
+
+            <button type="submit" class="popup__save-button popup__save-button_disabled" title="Сохранить" disabled>Сохранить</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup popup_content_add-card">
+        <div class="popup__container popup__container_content_form">
+          <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+          <h2 class="popup__title">Новое место</h2>
+          <form class="popup__form" id='form-add-card' name="add-card" action="/add/card/" method="post" novalidate>
+            <input class="popup__text-input" name="name" id="input-card-name" placeholder="Название"           type="text"  minlength="2" maxlength="30" required>
+            <span class="input-card-name-error popup__error"></span>
+
+            <input class="popup__text-input" name="src"  id="input-card-src"  placeholder="Ссылка на картинку" type="url" required>
+            <span class="input-card-src-error popup__error"></span>
+
+            <button type="submit" class="popup__save-button popup__save-button_disabled" title="Создать" disabled>Создать</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup popup_blackout_strong popup_content_image">
+        <div class="popup__container popup__container_content_image">
+          <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
+          <img class="popup__image" alt="">
+          <h2  class="popup__image-title"></h2>
+        </div>
       </div>
     </div>
 
-    <div class="popup popup_content_add-card">
-      <div class="popup__container popup__container_content_form">
-        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
-        <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" id='form-add-card' name="add-card" action="/add/card/" method="post">
-          <input class="popup__text-input" name="name" id="input-card-name" placeholder="Название">
-          <input class="popup__text-input" name="src"  id="input-card-src"  placeholder="Ссылка на картинку">
-          <button type="submit" class="popup__save-button" title="Создать">Создать</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="popup popup_blackout_strong popup_content_image">
-      <div class="popup__container popup__container_content_image">
-        <button class="popup__close-button" type="button" title="Закрыть форму без сохранения данных"></button>
-        <img class="popup__image" alt="">
-        <h2  class="popup__image-title"></h2>
-      </div>
-    </div>
 
     <template id="templates">
       <li class="element">
@@ -75,7 +86,9 @@
         <button class="element__delete" type="button"></button>
       </li>
     </template>
-
+    <script src="scripts/variables.js"></script>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/validate.js"></script>
     <script src="scripts/index.js"></script>
   </body>
 </html>
