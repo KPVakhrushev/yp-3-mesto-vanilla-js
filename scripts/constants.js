@@ -58,5 +58,3 @@ const paramsValidation = {
   inputErrorClass:     'popup__text-input_type_error',
   errorClass:          'popup__error_active'
 }
-
-let openedPopup;
