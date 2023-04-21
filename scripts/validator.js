@@ -1,4 +1,4 @@
-export default class FromValidator{
+export default class FormValidator{
   constructor (form, config){
     /**
      config sample:

@@ -32,7 +32,7 @@ popups.forEach(handleClickOverlay);
 
 /* Добавление начальных карточек */
 initialCards.forEach(card=> addCard(card));
-(new FromValidator(formAddCard, paramsValidation)).enableValidation();
-(new FromValidator(formEditProfile, paramsValidation)).enableValidation();
+(new FormValidator(formAddCard, paramsValidation)).enableValidation();
+(new FormValidator(formEditProfile, paramsValidation)).enableValidation();
 
 document.querySelector('.popups').classList.remove('page__hidden');
