@@ -1,5 +1,5 @@
-import FromValidator from './validator.js';
-import Card from './card.js';
+import FormValidator from './FormValidator.js';
+import Card from './Card.js';
 import  {openPopupAddCard, openPopupProfile, closePopup, handleClickCloseButton, handleClickOverlay} from './popup.js';
 
 
