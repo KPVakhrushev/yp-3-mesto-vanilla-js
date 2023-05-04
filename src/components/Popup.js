@@ -4,6 +4,7 @@ export default class Popup {
     this._handlers = handlers;
     this._element  = document.querySelector(config.selector);
     this._buttonClose = this._selectElement('buttonClose');
+    this._handleEscape = this._handleEscape.bind(this);
     this._setEventListeners();
   }
   _selectElement(elementName){
@@ -21,10 +22,10 @@ export default class Popup {
     this._element.classList.remove(this._config.opened);
     document.removeEventListener('keydown', this._handleEscape) ;
   }
+  _handleEscape(e){
+    if(e.key === 'Escape') this.close();
+  }
   _setEventListeners(){
-    /* escape */
-    this._handleEscape = (e => {if(e.key === 'Escape') this.close(); });
-
     /* handleClickOverlay */
     this._element.addEventListener('mousedown', (e) => {
       if(e.target === this._element){

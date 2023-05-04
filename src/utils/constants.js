@@ -30,7 +30,8 @@ const selectors = {
 };
 const classConfigs = {
   Card: {
-    template:      document.querySelector('#templates').content.querySelector('.element'),
+    selector:     '.element',
+    template:     '#templates',
     image:        '.element__image',
     buttonLike:   '.element__like',
     buttonDelete: '.element__delete',

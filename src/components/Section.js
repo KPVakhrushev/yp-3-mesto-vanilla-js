@@ -18,10 +18,8 @@ export default class Section {
     this._container.innerHTML = '';
     this._items.forEach(item => this._container.append(this._renderer(item)));
   }
-
-  addItem(item){
-    this._items.unshift(item);
-    this._container.prepend(this._renderer(item));
+  addItem(element){
+    this._container.prepend(element);
   }
   removeItem(item){
     this._items = this._items.filter(_item=> !(_item === item));

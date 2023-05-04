@@ -1,4 +1,4 @@
-import Popup from '../components/Popups.js';
+import Popup from '../components/Popup.js';
 /*
 Кроме селектора попапа принимает в конструктор колбэк сабмита формы.
  */
@@ -21,11 +21,11 @@ export default class PopupWithForm extends Popup{
 
   /* Перезаписывает родительский метод setEventListeners. Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.*/
   _setEventListeners(){
-    if(!this._form) return;
+    if(!this._form) return; /* _setEventListeners  вызывается из конструктора родителя в тот момент когда _form еще не существует, поэтому тут условие, а в конце конструктора повторный вызов _setEventListeners  */
 
     this._form.addEventListener('submit', (e)=>{
       e.preventDefault();
-      if(this._handlers.submit)  this._handlers.submit(this._getInputValues());
+      this._handlers.submit(this._getInputValues());
       this.close();
     });
 

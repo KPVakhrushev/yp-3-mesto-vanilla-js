@@ -9,14 +9,20 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import Section        from '../components/Section.js';
 import UserInfo       from '../components/UserInfo.js';
 
+const cardRenderer = function(cardData){
+  return (new Card( cardData,  classConfigs.Card,{
+    'click':  (data) => popups.image.open(data),
+    'remove': (item)=> elements.removeItem(item)
+  } ) ).getElement()
+}
 const userInfo = new UserInfo(classConfigs.UserInfo, {'edit': ()=>popups.edit.open()});
 
-/** Попапы  */
+/* Попапы  */
 const popups = {
   image: new PopupWithImage(Object.assign({},classConfigs.Popup, classConfigs.PopupImage )),
   add:   new PopupWithForm(Object.assign({},classConfigs.Popup, classConfigs.PopupAdd ), {
     'submit': (cardData) => {
-      Elements.addItem( cardData );
+      elements.addItem( cardRenderer(cardData) );
     }
   }),
   edit:  new PopupWithForm(Object.assign({},classConfigs.Popup, classConfigs.PopupEdit ), {
@@ -32,13 +38,8 @@ const addFormValidator = new FormValidator(popups.add.getForm(), classConfigs.Fo
 addFormValidator.enableValidation();
 
 /* генератор карточек */
-const Elements = new Section( selectors.cards,  initialCards, cardData=> {
-  return (new Card( cardData,  classConfigs.Card,{
-    'click':  () => popups.image.open(cardData),
-    'remove': (item)=> Elements.removeItem(item)
-  } ) ).getElement()
-});
-Elements.render();
+const elements = new Section( selectors.cards,  initialCards, cardRenderer);
+elements.render();
 
 /* кнопка создания новой карточки */
 document.querySelector(selectors.buttonAdd).addEventListener('click', () => popups.add.open());

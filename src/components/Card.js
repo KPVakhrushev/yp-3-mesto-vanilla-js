@@ -1,7 +1,7 @@
 export default class Card{
   constructor(cardData, config, handlers={}){
     this._config       = config;
-    this._element      = config.template.cloneNode('true');
+    this._element      = document.querySelector(config.template).content.querySelector(config.selector).cloneNode('true');
     this._image        = this._selectElement('image');
     this._likeButton   = this._selectElement('buttonLike');
     this._deleteButton = this._selectElement('buttonDelete');
@@ -19,12 +19,12 @@ export default class Card{
     return this._element.querySelector(this._config[elementName]);
   }
   _addListeners(){
-    this._likeButton.addEventListener('click', event => this.like());
-    this._deleteButton.addEventListener('click', () => this.remove());
+    this._likeButton.addEventListener('click', event => this._like());
+    this._deleteButton.addEventListener('click', () => this._remove());
 
     this._image.addEventListener('error', event=> this._handleImageError(event));
     if(this._handlers.click){
-      this._image.addEventListener('click', event => this._handlers.click(event));
+      this._image.addEventListener('click', event => this._handlers.click(this._cardData));
     }
   }
   _handleImageError = function(event){
@@ -34,10 +34,10 @@ export default class Card{
   getElement(){
     return this._element;
   }
-  like(){
+  _like(){
     this._likeButton.classList.toggle(this._config.likeActive);
   }
-  remove(){
+  _remove(){
     this._element.remove();
     if(this._handlers.remove){
       this._handlers.remove(this._cardData);
