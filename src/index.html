@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Место</title>
-    <link rel="stylesheet" href="pages/index.css">
   </head>
   <body class="page">
 
@@ -14,7 +13,7 @@
 
     <main>
       <section class="profile page__profile">
-        <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка профиля">
+        <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватарка профиля">
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <button class="profile__edit-button"  type="button" title="Редактировать данные"></button>
@@ -60,7 +59,7 @@
             <input class="popup__text-input" name="name" id="input-card-name" placeholder="Название"           type="text"  minlength="2" maxlength="30" required>
             <span class="input-card-name-error popup__error"></span>
 
-            <input class="popup__text-input" name="src"  id="input-card-src"  placeholder="Ссылка на картинку" type="url" required>
+            <input class="popup__text-input" name="link"  id="input-card-src"  placeholder="Ссылка на картинку" type="url" required>
             <span class="input-card-src-error popup__error"></span>
 
             <button type="submit" class="popup__save-button popup__save-button_disabled" title="Создать" disabled>Создать</button>
@@ -77,7 +76,6 @@
       </div>
     </div>
 
-
     <template id="templates">
       <li class="element">
         <img class="element__image" alt="">
@@ -86,7 +84,5 @@
         <button class="element__delete" type="button"></button>
       </li>
     </template>
-    <script src="scripts/constants.js"></script>
-    <script src="scripts/index.js" type="module"></script>
   </body>
 </html>

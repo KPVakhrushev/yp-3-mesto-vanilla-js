@@ -1,0 +1,36 @@
+/**
+Класс UserInfo отвечает за управление отображением информации о пользователе на странице
+ */
+export default class UserInfo {
+  /**Принимает в конструктор объект с селекторами двух элементов: элемента имени пользователя и элемента информации о себе. */
+  constructor( config, handlers ){
+    this._element    = document.querySelector(config.selector);
+    this._config     = config;
+    this._handlers   = handlers;
+    this._title      = this._selectElement('title');
+    this._subtitle   = this._selectElement('subtitle');
+    this._buttonEdit = this._selectElement('buttonEdit');
+    this._setEventListeners();
+  }
+  _selectElement(elementName){
+    return this._element.querySelector(this._config[elementName]);
+  }
+  /** Содержит публичный метод setUserInfo, который принимает новые данные пользователя и добавляет их на страницу.  */
+  setUserInfo(info){
+    this._title.textContent = info.title;
+    this._subtitle.textContent = info.subtitle;
+  }
+  /**публичный метод getUserInfo, возвращает объект с данными пользователя. Этот метод пригодится когда данные пользователя нужно будет подставить в форму при открытии. */
+  getUserInfo(){
+    const info =  {
+      title:    this._title.textContent,
+      subtitle: this._subtitle.textContent
+    };
+    return info;
+  }
+  _setEventListeners(){
+    if(this._handlers.edit){
+      this._buttonEdit.addEventListener('click', this._handlers.edit);
+    }
+  }
+}
