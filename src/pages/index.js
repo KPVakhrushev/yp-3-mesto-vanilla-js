@@ -1,6 +1,6 @@
 import "./index.css";
 
-import  {initialCards, selectors, classConfigs} from '../utils/constants.js';
+import  {selectors, classConfigs} from '../utils/constants.js';
 
 import FormValidator  from '../components/FormValidator.js';
 import Card           from '../components/Card.js';
@@ -8,11 +8,16 @@ import PopupWithForm  from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Section        from '../components/Section.js';
 import UserInfo       from '../components/UserInfo.js';
+import Api            from '../components/Api.js';
 
+const api = new Api(classConfigs.Api);
+const errorHandler = function(error){
+  debugger;
+  console.log(error);
+}
 const cardRenderer = function(cardData){
   return (new Card( cardData,  classConfigs.Card,{
-    'click':  (data) => popups.image.open(data),
-    'remove': (item)=> elements.removeItem(item)
+    'click':  (data) => popups.image.open(data)
   } ) ).getElement()
 }
 const userInfo = new UserInfo(classConfigs.UserInfo, {'edit': ()=>popups.edit.open()});
@@ -38,8 +43,12 @@ const addFormValidator = new FormValidator(popups.add.getForm(), classConfigs.Fo
 addFormValidator.enableValidation();
 
 /* генератор карточек */
-const elements = new Section( selectors.cards,  initialCards, cardRenderer);
-elements.render();
+api.getInitialCards()
+  .then(cards => {
+    const elements = new Section( selectors.cards,  cards, cardRenderer);
+    elements.render();
+  })
+  .catch(errorHandler)
 
 /* кнопка создания новой карточки */
 document.querySelector(selectors.buttonAdd).addEventListener('click', () => popups.add.open());
