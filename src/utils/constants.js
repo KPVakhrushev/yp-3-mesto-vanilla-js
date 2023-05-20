@@ -17,11 +17,22 @@ const classConfigs = {
     opened:      'popup_opened',
     buttonClose: '.popup__close-button'
   },
-  PopupEdit:{
+  PopupForm: {
+    buttonSave:  '.popup__save-button',
+    awaitTitle: 'Сохранение...'
+  },
+  PopupFormEdit:{
     selector:    '.popup_content_edit-profile',
   },
-  PopupAdd:{
-    selector:    '.popup_content_add-card',
+  PopupFormAdd:{
+    selector:    '.popup_content_add-card'
+  },
+  PopupFormConfirm:{
+    selector:    '.popup_content_confirm',
+    awaitTitle: 'Удаление...'
+  },
+  PopupFormAvatar:{
+    selector:    '.popup_content_avatar',
   },
   PopupImage:{
     selector:    '.popup_content_image',
@@ -32,7 +43,9 @@ const classConfigs = {
     selector:   '.profile',
     title:      '.profile__title',
     subtitle:   '.profile__subtitle',
-    buttonEdit: '.profile__edit-button'
+    buttonEdit: '.profile__edit-button',
+    avatar:     '.profile__avatar',
+    buttonEditAvatar:'.profile__avatar-edit'
   },
   FormValidator:{
     formSelector:        '.popup__form',
@@ -45,11 +58,9 @@ const classConfigs = {
 
   Api: {
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
-    headers: {
-      'authorization': 'aaeb6289-65cb-4609-9c4e-f2ae0dcd32fb',
-      'Content-Type': 'application/json'
-    }
-  }}
+    authorization: 'aaeb6289-65cb-4609-9c4e-f2ae0dcd32fb'
+  }
+}
 
 
 

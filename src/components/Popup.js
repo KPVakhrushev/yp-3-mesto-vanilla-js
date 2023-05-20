@@ -2,10 +2,13 @@ export default class Popup {
   constructor(config, handlers={}){
     this._config = config;
     this._handlers = handlers;
-    this._element  = document.querySelector(config.selector);
+    this._setElements();
+    this._setEventListeners();
+  }
+  _setElements(){
+    this._element  = document.querySelector(this._config.selector);
     this._buttonClose = this._selectElement('buttonClose');
     this._handleEscape = this._handleEscape.bind(this);
-    this._setEventListeners();
   }
   _selectElement(elementName){
     return this._element.querySelector(this._config[elementName]);

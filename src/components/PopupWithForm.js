@@ -3,13 +3,13 @@ import Popup from '../components/Popup.js';
 Кроме селектора попапа принимает в конструктор колбэк сабмита формы.
  */
 export default class PopupWithForm extends Popup{
-  constructor(config, handlers){
-    super(config, handlers);
+  _setElements(){
+    super._setElements();
     this._form      = this._element.querySelector('form');
     this._inputList = this._form.querySelectorAll('input');
-    this._setEventListeners();
+    this._buttonSave = this._selectElement('buttonSave');
+    this._buttonSaveTitle = this._buttonSave.textContent;
   }
-
   /* приватный метод _getInputValues, который собирает данные всех полей формы.*/
   _getInputValues(){
     const formValues = {};
@@ -25,11 +25,19 @@ export default class PopupWithForm extends Popup{
 
     this._form.addEventListener('submit', (e)=>{
       e.preventDefault();
-      this._handlers.submit(this._getInputValues());
-      this.close();
+      this._buttonSave.textContent = this._config.awaitTitle;
+      this._buttonSave.disabled = true;
+      this._handlers.submit(this._getInputValues()).then(()=>{
+        this._buttonSave.disabled = false;
+        this.close();
+      });
     });
 
     super._setEventListeners();
+  }
+  open(){
+    this._buttonSave.textContent = this._buttonSaveTitle;
+    super.open();
   }
   /* Перезаписывает родительский метод close, так как при закрытии попапа форма должна ещё и сбрасываться.*/
   close(){

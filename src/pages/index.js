@@ -1,3 +1,4 @@
+console.log('dddddddddddddddddddd');
 import "./index.css";
 
 import  {selectors, classConfigs} from '../utils/constants.js';
@@ -10,45 +11,86 @@ import Section        from '../components/Section.js';
 import UserInfo       from '../components/UserInfo.js';
 import Api            from '../components/Api.js';
 
-const api = new Api(classConfigs.Api);
+let cardForDelete;
+/* вспомогательные функции  */
 const errorHandler = function(error){
-  debugger;
-  console.log(error);
+  console.log(" API ERROR ");
+}
+const getConfig = function(path){
+  let parts = path.match(/[A-Z][a-z]+/g);
+  let name = '';
+  const recur = () => {
+    if(!parts.length) return {};
+    name+= parts.shift();
+    return Object.assign({}, classConfigs[name]?classConfigs[name]:{}, recur());
+  }
+  return recur();
+}
+const prepareCardData = function(data){
+  const currentUser = userInfo.getUserInfo();
+  data.isLiked = data.likes.some(user=> user._id===currentUser._id);
+  data.isOwner = currentUser._id === data.owner._id ;
+  return data;
 }
 const cardRenderer = function(cardData){
-  return (new Card( cardData,  classConfigs.Card,{
-    'click':  (data) => popups.image.open(data)
-  } ) ).getElement()
-}
-const userInfo = new UserInfo(classConfigs.UserInfo, {'edit': ()=>popups.edit.open()});
-
-/* Попапы  */
-const popups = {
-  image: new PopupWithImage(Object.assign({},classConfigs.Popup, classConfigs.PopupImage )),
-  add:   new PopupWithForm(Object.assign({},classConfigs.Popup, classConfigs.PopupAdd ), {
-    'submit': (cardData) => {
-      elements.addItem( cardRenderer(cardData) );
+  prepareCardData(cardData);
+  const card =  new Card( cardData,  classConfigs.Card,{
+    'click':  (data) => popups.image.open(data),
+    'clickDelete': (card)=> {
+      cardForDelete = card;
+      popups.confirm.open();
+    },
+    'clickLike':  (card) => {
+      const data = card.getData();
+      (data.isLiked? api.unlikeCard(data._id): api.likeCard(data._id))
+        .then(res => card.setData( prepareCardData(res)))
+        .catch(errorHandler);
     }
+  });
+  return card.getElement()
+}
+/* Экземпляры классов */
+let cardsSection   = new Section(selectors.cards, cardRenderer);
+const api          = new Api(classConfigs.Api);
+const userInfo     = new UserInfo(classConfigs.UserInfo, {
+  'clickEdit':       ()=>popups.edit.open(),
+  'clickEditAvatar': ()=>popups.avatar.open()
+});
+const popups       = {
+  image: new PopupWithImage(getConfig('PopupImage')),
+  add:   new PopupWithForm(getConfig('PopupFormAdd'), {
+    'submit': (cardData) => api.addCard(cardData).then(data=>cardsSection.addItem( cardRenderer(data) )).catch(errorHandler)
   }),
-  edit:  new PopupWithForm(Object.assign({},classConfigs.Popup, classConfigs.PopupEdit ), {
+  edit:  new PopupWithForm(getConfig('PopupFormEdit'), {
     'open': ()=> popups.edit.setData(userInfo.getUserInfo()),
-    'submit': userData => userInfo.setUserInfo(userData)
+    'submit': userData => api.updateMe(userData).then(userData=>userInfo.setUserInfo(userData)).catch(errorHandler)
+  }),
+  confirm:  new PopupWithForm(Object.assign(getConfig('PopupFormConfirm')), {
+    'open': ()=> popups.edit.setData(userInfo.getUserInfo()),
+    'submit': () => api.deleteCard(cardForDelete.getData()._id).then(()=>cardForDelete.delete()).catch(errorHandler)
+  }),
+  avatar:  new PopupWithForm(getConfig('PopupFormAvatar') , {
+    'open': ()=> popups.avatar.setData(userInfo.getUserInfo()),
+    'submit': data =>api.updateMeAvatar(data).then(data=>userInfo.setUserInfo(data)).catch(errorHandler)
   })
 }
+
+const editFormValidator    = new FormValidator(popups.edit.getForm(), classConfigs.FormValidator);
+const addFormValidator     = new FormValidator(popups.add.getForm(), classConfigs.FormValidator);
+const avatarFormValidator  = new FormValidator(popups.avatar.getForm(), classConfigs.FormValidator);
 
 /** Валидация форм */
-const editFormValidator = (new FormValidator(popups.edit.getForm(), classConfigs.FormValidator));
 editFormValidator.enableValidation();
-const addFormValidator = new FormValidator(popups.add.getForm(), classConfigs.FormValidator);
 addFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 
-/* генератор карточек */
-api.getInitialCards()
-  .then(cards => {
-    const elements = new Section( selectors.cards,  cards, cardRenderer);
-    elements.render();
+/* загрузка данных  */
+Promise.all([api.getMe(), api.getCards()])
+  .then(results=>{
+    userInfo.setUserInfo(results[0])
+    cardsSection.setItems(results[1]).render()
   })
-  .catch(errorHandler)
+  .catch(errorHandler);
 
 /* кнопка создания новой карточки */
 document.querySelector(selectors.buttonAdd).addEventListener('click', () => popups.add.open());
