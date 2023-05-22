@@ -18,6 +18,14 @@ export default class UserInfo {
   _selectElement(elementName){
     return this._element.querySelector(this._config[elementName]);
   }
+  _setEventListeners(){
+    if(this._handlers.clickEdit){
+      this._buttonEdit.addEventListener('click', this._handlers.clickEdit);
+    }
+    if(this._handlers.clickEditAvatar){
+      this._buttonEditAvatar.addEventListener('click', this._handlers.clickEditAvatar);
+    }
+  }
   /** Содержит публичный метод setUserInfo, который принимает новые данные пользователя и добавляет их на страницу.  */
   setUserInfo(info){
     this._user = info;
@@ -31,13 +39,7 @@ export default class UserInfo {
   getUserInfo(){
     return this._user;
   }
-
-  _setEventListeners(){
-    if(this._handlers.clickEdit){
-      this._buttonEdit.addEventListener('click', this._handlers.clickEdit);
-    }
-    if(this._handlers.clickEditAvatar){
-      this._buttonEditAvatar.addEventListener('click', this._handlers.clickEditAvatar);
-    }
+  getUserId(){
+    return this._user._id;
   }
 }

@@ -1,4 +1,3 @@
-console.log('dddddddddddddddddddd');
 import "./index.css";
 
 import  {selectors, classConfigs} from '../utils/constants.js';
@@ -10,11 +9,16 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import Section        from '../components/Section.js';
 import UserInfo       from '../components/UserInfo.js';
 import Api            from '../components/Api.js';
+import PopupWithDialog from "../components/PopupWithDialog";
 
-let cardForDelete;
 /* вспомогательные функции  */
+const awaitPopupSubmit = function (popup, promise){
+  popup.await( promise.then(()=>popup.close()).catch(errorHandler));
+  return promise;
+}
 const errorHandler = function(error){
-  console.log(" API ERROR ");
+  console.log(error);
+  alert('Что-то пошло не так');
 }
 const getConfig = function(path){
   let parts = path.match(/[A-Z][a-z]+/g);
@@ -26,24 +30,22 @@ const getConfig = function(path){
   }
   return recur();
 }
-const prepareCardData = function(data){
-  const currentUser = userInfo.getUserInfo();
-  data.isLiked = data.likes.some(user=> user._id===currentUser._id);
-  data.isOwner = currentUser._id === data.owner._id ;
-  return data;
-}
+
 const cardRenderer = function(cardData){
-  prepareCardData(cardData);
-  const card =  new Card( cardData,  classConfigs.Card,{
+  const card =  new Card( cardData, Object.assign({userId: userInfo.getUserId()}, classConfigs.Card),{
     'click':  (data) => popups.image.open(data),
     'clickDelete': (card)=> {
-      cardForDelete = card;
+      popups.confirm.setHandler('confirm', ()=>{
+        api.deleteCard(card.getData()._id).then(()=>{
+          card.delete();
+          popups.confirm.close();
+        }).catch(errorHandler)
+      });
       popups.confirm.open();
     },
     'clickLike':  (card) => {
-      const data = card.getData();
-      (data.isLiked? api.unlikeCard(data._id): api.likeCard(data._id))
-        .then(res => card.setData( prepareCardData(res)))
+      (card.isLiked()? api.unlikeCard(card.getId()): api.likeCard(card.getId()))
+        .then(res => card.setData( res ))
         .catch(errorHandler);
     }
   });
@@ -59,19 +61,16 @@ const userInfo     = new UserInfo(classConfigs.UserInfo, {
 const popups       = {
   image: new PopupWithImage(getConfig('PopupImage')),
   add:   new PopupWithForm(getConfig('PopupFormAdd'), {
-    'submit': (cardData) => api.addCard(cardData).then(data=>cardsSection.addItem( cardRenderer(data) )).catch(errorHandler)
+    'submit': (cardData) => awaitPopupSubmit(popups.add,  api.addCard(cardData).then(data=>cardsSection.addItem(cardRenderer(data) )))
   }),
   edit:  new PopupWithForm(getConfig('PopupFormEdit'), {
     'open': ()=> popups.edit.setData(userInfo.getUserInfo()),
-    'submit': userData => api.updateMe(userData).then(userData=>userInfo.setUserInfo(userData)).catch(errorHandler)
+    'submit': userData => awaitPopupSubmit(popups.edit, api.updateMe(userData).then(userData=>userInfo.setUserInfo(userData)))
   }),
-  confirm:  new PopupWithForm(Object.assign(getConfig('PopupFormConfirm')), {
-    'open': ()=> popups.edit.setData(userInfo.getUserInfo()),
-    'submit': () => api.deleteCard(cardForDelete.getData()._id).then(()=>cardForDelete.delete()).catch(errorHandler)
-  }),
+  confirm:  new PopupWithDialog(getConfig('PopupDialog')),
   avatar:  new PopupWithForm(getConfig('PopupFormAvatar') , {
     'open': ()=> popups.avatar.setData(userInfo.getUserInfo()),
-    'submit': data =>api.updateMeAvatar(data).then(data=>userInfo.setUserInfo(data)).catch(errorHandler)
+    'submit': data =>awaitPopupSubmit(popups.avatar,  api.updateMeAvatar(data).then(data=>userInfo.setUserInfo(data)) )
   })
 }
 

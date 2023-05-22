@@ -38,4 +38,7 @@ export default class Popup {
     /* close button */
     this._buttonClose.addEventListener('click', this.close.bind(this))
   }
+  setHandler(name, handler){
+    this._handlers[name] = handler;
+  }
 }

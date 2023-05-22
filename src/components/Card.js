@@ -29,13 +29,13 @@ export default class Card{
     this._image.alt = cardData.name;
     this._title.textContent = cardData.name;
     this._likeButton.textContent = cardData.likes.length;
-    if(!cardData.isOwner && this._deleteButton){
+    if(this._config.userId !== this._cardData.owner._id && this._deleteButton){
       this._deleteButton.remove();
     }
-    this.like(cardData.isLiked);
+    this.isLiked()? this._likeButton.classList.add(this._config.likeActive): this._likeButton.classList.remove(this._config.likeActive);
   }
-  like(isLiked){
-    isLiked? this._likeButton.classList.add(this._config.likeActive): this._likeButton.classList.remove(this._config.likeActive);
+  isLiked(){
+    return this._cardData.likes.some(user=> user._id===this._config.userId)
   }
   getData(){
     return this._cardData;
@@ -46,5 +46,7 @@ export default class Card{
   delete(){
     this._element.remove();
   }
-
+  getId(){
+    return this._cardData._id;
+  }
 }

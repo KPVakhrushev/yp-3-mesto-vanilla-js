@@ -27,10 +27,6 @@ const classConfigs = {
   PopupFormAdd:{
     selector:    '.popup_content_add-card'
   },
-  PopupFormConfirm:{
-    selector:    '.popup_content_confirm',
-    awaitTitle: 'Удаление...'
-  },
   PopupFormAvatar:{
     selector:    '.popup_content_avatar',
   },
@@ -55,7 +51,9 @@ const classConfigs = {
     inputErrorClass:     'popup__text-input_type_error',
     errorClass:          'popup__error_active'
   },
-
+  PopupDialog:{
+    selector:    '.popup_content_confirm'
+  },
   Api: {
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
     authorization: 'aaeb6289-65cb-4609-9c4e-f2ae0dcd32fb'

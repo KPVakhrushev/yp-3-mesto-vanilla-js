@@ -25,7 +25,4 @@ export default class Section {
   addItem(element){
     this._container.prepend(element);
   }
-  removeItem(item){
-    this._items = this._items.filter(_item=> !(_item === item));
-  }
 }

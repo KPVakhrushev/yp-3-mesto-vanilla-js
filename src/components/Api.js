@@ -39,7 +39,8 @@ export default class Api {
     return this._get('/users/me').then(res=> res.json() );
   }
   updateMe({name, about}){
-    return this._patchJson('/users/me', {name: name, about:about}).then(res=> res.json() );
+    //return (new Promise(resolve => setTimeout(resolve, 1000))).then(()=>Promise.reject('test error'));
+    return  this._patchJson('/users/me', {name: name, about:about}).then(res=> res.json() );
   }
   addCard({name, link}){
     return this._postJson('/cards', {name: name, link:link}).then(res=> res.json() );
