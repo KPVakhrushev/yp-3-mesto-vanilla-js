@@ -39,7 +39,7 @@ export default class PopupWithForm extends Popup{
   getForm(){
     return this._form;
   }
-  await(promise){
+  blockFormUntilPromise(promise){
     this._buttonSave.textContent = this._config.awaitTitle;
     this._buttonSave.disabled = true;
     this._inputList.forEach(input=>input.disabled = true);

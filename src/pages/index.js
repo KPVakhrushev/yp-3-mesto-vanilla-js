@@ -13,7 +13,7 @@ import PopupWithDialog from "../components/PopupWithDialog";
 
 /* вспомогательные функции  */
 const awaitPopupSubmit = function (popup, promise){
-  popup.await( promise.then(()=>popup.close()).catch(errorHandler));
+  popup.blockFormUntilPromise( promise.then(()=>popup.close()).catch(errorHandler));
   return promise;
 }
 const errorHandler = function(error){
@@ -36,7 +36,7 @@ const cardRenderer = function(cardData){
     'click':  (data) => popups.image.open(data),
     'clickDelete': (card)=> {
       popups.confirm.setHandler('confirm', ()=>{
-        api.deleteCard(card.getData()._id).then(()=>{
+        api.deleteCard(card.getId()).then(()=>{
           card.delete();
           popups.confirm.close();
         }).catch(errorHandler)
