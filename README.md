@@ -30,7 +30,9 @@
 
 ## **Демонстрация**
 
-Проект размещен [в github pages](https://kpvakhrushev.github.io/mesto/)
+Проект размещен [в github pages](https://kpvakhrushev.github.io/yp-3-mesto-vanilla-js/)
 
 ## **Планы по доработке проекта**
-В рамках проектной работы 10 будет использован React
+Следующим этапом развития проекта Mesto является использование React.
+Работы по портированию проекта на React ведутся в репозитории [yp-4-mesto-react](https://github.com/KPVakhrushev/yp-4-mesto-react).
+Изменений в данном репозитории далее не планируется.
